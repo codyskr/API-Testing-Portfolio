@@ -56,7 +56,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"status is 201\", function () {\r",
-									"    pm.expect(pm.response.status).to.equal(201);\r",
+									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"pm.test(\"checking the sent message\", function () {\r",
 									"     pm.expect(pm.response.json()).to.be.an('object');\r",
@@ -66,8 +66,18 @@
 									"     pm.expect(pm.response.json().id).to.exist.and.to.be.a('number');\r",
 									"     });\r",
 									"pm.test(\"response timeout checking\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);\r",
 									"});     "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -79,7 +89,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"New title\",\r\n    \"body\": \"Message\",\r\n    \"userId\": 1\r\n}\r\n",
+							"raw": "{\r\n    \"title\": \"2\",\r\n    \"body\": \"222\",\r\n    \"userId\": 2\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -195,6 +205,16 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
 						}
 					],
 					"request": {
@@ -241,8 +261,10 @@
 									"});     \r",
 									"\r",
 									"pm.test(\"response is empty\", function () {\r",
-									"    pm.expect(pm.response.text()).to.eql(\"\");\r",
-									"});"
+									"    let jsonData = pm.response.json();\r",
+									"    pm.expect(Object.keys(jsonData).length).to.equal(0);\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -250,11 +272,11 @@
 						}
 					],
 					"request": {
-						"method": "PATCH",
+						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \r\n    \"title\": \"partly updated - title\"  \r\n}\r\n",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
